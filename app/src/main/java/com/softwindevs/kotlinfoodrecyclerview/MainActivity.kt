@@ -3,6 +3,7 @@ package com.softwindevs.kotlinfoodrecyclerview
 import android.icu.text.CaseMap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnItemClickListener {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //we can use kotlinx sythetic plugin for directly getting id's
-       // val recyclerView = findViewById(R.id.Food_RV) as RecyclerView
+        // val recyclerView = findViewById(R.id.Food_RV) as RecyclerView
 
         //set the layout manager from xml
         //recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -36,11 +37,19 @@ class MainActivity : AppCompatActivity() {
         Foods.add(FoodModel("Taco", "Italian Cusine"))
 
         //creating our adapter
-        val adapter = FoodAdapter(Foods)
+        val adapter = FoodAdapter(Foods, this)
 
         //now adding the adapter to recyclerview
-       Food_RV.adapter = adapter
+        Food_RV.adapter = adapter
 
+    }
+
+    //Onitemclick Interface
+    override fun onItemClicked(Foods: FoodModel) {
+        Toast.makeText(this, "${Foods.Fname} is clicked!", Toast.LENGTH_SHORT).show()
+
+        //set clicked food name in textview
+        SelectedTv.text = "${Foods.Fname}"
     }
 
 }
